@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/partials/header/header.component';
 import { HomeComponent } from './components/pages/home/home.component';
 import { StarRatingComponent } from './components/partials/star-rating/star-rating.component';
+import { SearchComponent } from './components/partials/search/search.component';
 
 @NgModule({
   declarations: [
@@ -13,6 +14,7 @@ import { StarRatingComponent } from './components/partials/star-rating/star-rati
     HeaderComponent,
     HomeComponent,
     StarRatingComponent,
+    SearchComponent,
   ],
   imports: [BrowserModule, AppRoutingModule],
   providers: [],
