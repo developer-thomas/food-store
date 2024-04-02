@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { CartService } from 'src/app/services/cart.service';
 import { FoodService } from 'src/app/services/food.service';
 import { Food } from 'src/app/shared/models/Food';
 
@@ -13,7 +14,9 @@ export class FoodPageComponent {
 
   constructor(
     activatedRoute: ActivatedRoute,
-    private foodService: FoodService
+    private foodService: FoodService,
+    private cartService: CartService,
+    private router: Router
   ) {
     activatedRoute.params.subscribe((params) => {
       if (params.id) {
@@ -22,6 +25,9 @@ export class FoodPageComponent {
       }
     });
   }
-}
 
-// parei no minuto 4
+  addToCart() {
+    this.cartService.addToCart(this.food);
+    this.router.navigateByUrl('/cart-page');
+  }
+}
