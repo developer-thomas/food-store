@@ -8,34 +8,45 @@ import { CartItem } from '../shared/models/Caritem';
   providedIn: 'root',
 })
 export class CartService {
-  // Se não tiver nenhum valor na propridade, irá ter apenas a instância vazia do construtor, como definido no método
   private cart: Cart = this.getCartFromLocalStorage();
   private cartSubject: BehaviorSubject<Cart> = new BehaviorSubject(this.cart);
   constructor() {}
 
+  // FUNCIONAMENTOS DOS MÉTODOS A SEGUIR:
+  // Todos os métodos alteram alguma coisa específica dentro de cart, e para que possamos trabalhar com essas mudanças, iremos observar o subject de cart
+  // A propriedade cart acima armazena os dados do localStorage. O método setCartToLocalStorage define as info no localStorage
+
+  // em addToCart iremos verificar se o item passado como argumento já existe em cart.items, se existir não faz nada
+  // caso não exista, vai adicionar uma nova instancia de CartItem e defini-la dentro de localStorage.
   addToCart(food: Food): void {
-    let cartItem = this.cart.items.find((item) => item.food.id === food.id);
-    if (cartItem) {
+    let cartItemExists = this.cart.items.find(
+      (item) => item.food.id === food.id
+    );
+    if (cartItemExists) {
       return;
+    } else {
+      this.cart.items.push(new CartItem(food));
+      this.setCartToLocalStorage();
     }
-    this.cart.items.push(new CartItem(food));
-    this.setCartToLocalStorage();
   }
 
   removeFromCart(foodId: string): void {
-    this.cart.items.filter((item) => item.food.id !== foodId);
-    this.setCartToLocalStorage();
+    let remainingElements = this.cart.items.filter(
+      (item) => item.food.id !== foodId
+    );
+    this.cart.items = remainingElements;
+    return this.setCartToLocalStorage();
   }
 
   changeQuantity(foodId: string, quantity: number) {
     let cartItem = this.cart.items.find((item) => item.food.id === foodId);
     if (!cartItem) {
       return;
+    } else {
+      cartItem.quantity = quantity;
+      cartItem.price = quantity * cartItem.food.price;
+      this.setCartToLocalStorage();
     }
-
-    cartItem.quantity = quantity;
-    cartItem.price = quantity * cartItem.food.price;
-    this.setCartToLocalStorage();
   }
 
   clearCart() {
@@ -59,6 +70,8 @@ export class CartService {
       (acc, cur) => acc + cur.quantity,
       0
     );
+
+    // Adiciona a propriedade cart ao localStorage, lembrnado que no localStorage tem que ser string, logo iremos transformar
     const cartJson = JSON.stringify(this.cart);
     localStorage.setItem('Cart', cartJson);
     this.cartSubject.next(this.cart);
