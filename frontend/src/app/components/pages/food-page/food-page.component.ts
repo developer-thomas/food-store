@@ -20,7 +20,7 @@ export class FoodPageComponent {
   ) {
     activatedRoute.params.subscribe((params) => {
       if (params.id) {
-        this.food = foodService.getFoodById(params.id);
+        this.food = this.foodService.getFoodById(params.id);
         console.log(this.food);
       }
     });
