@@ -24,9 +24,9 @@ export class FoodService {
   // faz o filtro em sample_foods
   // o component search cria um parâmetro de rota com o nome da comida enviado pelo input do usuário
   // o component home pega esse parâmetro gerado pelo search e chama esse método para renderizar na tela aquilo que foi pesquisado
-  getAllFoodsBySearchTerm(searchTerm: string) {
+  getAllFoodsBySearchTerm(searchTerm: string): Observable<Food[]> {
     // Substitui o filtro comentado abaixo por este, coloquei o filtro lá no backend e aqui irei fazer apenas o redirecionamento para a rota criada no backend
-    this.http.get<Food[]>(FOODS_BY_SEARCH_URL + searchTerm);
+    return this.http.get<Food[]>(FOODS_BY_SEARCH_URL + searchTerm);
 
     // codigo anterior
     // return this.getAll().subscribe((res) => {
@@ -36,8 +36,8 @@ export class FoodService {
     // });
   }
 
-  getFoodById(foodId: string): Observable<Food[]> {
-    return this.http.get<Food[]>(FOODS_BY_ID_URL + foodId);
+  getFoodById(foodId: string): Observable<Food> {
+    return this.http.get<Food>(FOODS_BY_ID_URL + foodId);
 
     // return this.getAll().find((food) => food.id == foodId) ?? new Food();
   }
