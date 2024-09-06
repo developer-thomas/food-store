@@ -3,15 +3,15 @@
     <a routerLink="/" class="logo">Food Store</a>
     <nav>
       <ul>
-        <li *ngIf="!user.token">
+        <li *ngIf="!isUserAuth()">
           <a routerLink="/login">Login</a>
         </li>
-        <li class="menu-container">
+        <li *ngIf="isUserAuth()" class="menu-container">
           <a routerLink="/dashboard">{{ user.name }}</a>
           <div class="menu">
             <a routerLink="/profile">Profile</a>
             <a routerLink="/orders">Orders</a>
-            <a>Logout</a>
+            <a (click)="logout()">Logout</a>
           </div>
         </li>
         <li>

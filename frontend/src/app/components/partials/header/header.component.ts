@@ -21,4 +21,12 @@ export class HeaderComponent {
       this.user = loggedUser;
     });
   }
+
+  logout() {
+    this.userService.logout();
+  }
+
+  isUserAuth() {
+    return this.user.token;
+  }
 }
