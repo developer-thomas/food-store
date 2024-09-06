@@ -134,7 +134,7 @@ export const sample_users: any[] = [
     isAdmin: true,
   },
   {
-    name: "jane Doe",
+    name: "Jane Doe",
     email: "jane@gmail.com",
     password: "12345",
     address: "Shangai",
