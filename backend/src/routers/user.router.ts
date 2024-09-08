@@ -1,8 +1,23 @@
 import { sample_users } from "../data";
 import jwt from "jsonwebtoken";
 import { Router } from "express";
+import asyncHandler from "express-async-handler";
+import { userModel } from "../models/user.model";
 
 const router = Router();
+
+router.get(
+  "/seed",
+  asyncHandler(async (req, res) => {
+    const usersCount = await userModel.countDocuments();
+    if (usersCount > 0) {
+      res.send("Already Seeded!");
+      return;
+    }
+    await userModel.create(sample_users);
+    res.send("Users Seeded!");
+  })
+);
 
 router.post("/login", (req, res) => {
   const { email, password } = req.body;
