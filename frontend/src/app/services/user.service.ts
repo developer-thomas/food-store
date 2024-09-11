@@ -3,8 +3,9 @@ import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { User } from '../shared/models/User';
 import { IUserLogin } from '../shared/interfaces/IUserLogin';
 import { HttpClient } from '@angular/common/http';
-import { USER_LOGIN_URL } from '../shared/urls/urls';
+import { USER_LOGIN_URL, USER_REGISTER_URL } from '../shared/urls/urls';
 import { ToastrService } from 'ngx-toastr';
+import { IUserRegister } from '../shared/interfaces/IUserRegister';
 
 const USER_KEY = 'User';
 
@@ -22,16 +23,36 @@ export class UserService {
   login(userLogin: IUserLogin): Observable<User> {
     return this.http.post<User>(USER_LOGIN_URL, userLogin).pipe(
       tap({
-        next: (user: User) => {
-          this.setUserToLocalStorage(user);
-          this.userSubject.next(user);
+        next: (userResponse: User) => {
+          this.setUserToLocalStorage(userResponse);
+          this.userSubject.next(userResponse);
           this.toastr.success(
-            `Bem vindo, ${user.name}!`,
+            `Bem vindo, ${userResponse.name}!`,
             'Logado com sucesso!'
           );
         },
         error: (errorResponse) => {
           this.toastr.error(errorResponse.error, 'Falha ao entrar');
+        },
+      })
+    );
+  }
+
+  register(userRegister: IUserRegister): Observable<User> {
+    return this.http.post<User>(USER_REGISTER_URL, userRegister).pipe(
+      tap({
+        next: (user: User) => {
+          this.setUserToLocalStorage(user.token);
+          this.userSubject.next(user);
+          this.toastr.success(`
+            Welcome ${user.name}, register sucessfully!
+            `);
+        },
+        error: (errorResponse) => {
+          this.toastr.error(
+            errorResponse.error,
+            'Failed to create a new user!'
+          );
         },
       })
     );
@@ -43,8 +64,8 @@ export class UserService {
     window.location.reload();
   }
 
-  public setUserToLocalStorage(user: User) {
-    localStorage.setItem(USER_KEY, JSON.stringify(user));
+  public setUserToLocalStorage(token: any) {
+    localStorage.setItem(USER_KEY, JSON.stringify(token));
   }
 
   public getUserFromLocalStorage(): User {
