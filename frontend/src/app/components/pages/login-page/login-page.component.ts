@@ -13,6 +13,7 @@ import { User } from 'src/app/shared/models/User';
 export class LoginPageComponent implements OnInit {
   loginForm!: FormGroup;
   isSubmitted: boolean = false;
+  // utilizado quando usuário é redirecionado para realizar uma ação como login ou registro, e depois deseja ser levado de volta à página que estava tentando acessar antes de ser interrompido.
   returnUrl: string = '';
 
   constructor(
