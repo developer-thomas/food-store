@@ -54,6 +54,11 @@ export class CartService {
     this.setCartToLocalStorage();
   }
 
+  // último valor do cart para o checkout
+  getFinalCart() {
+    return this.cartSubject.value;
+  }
+
   getCartObservable(): Observable<Cart> {
     return this.cartSubject.asObservable();
   }
