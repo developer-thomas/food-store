@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/partials/header/header.component';
@@ -13,7 +12,6 @@ import { TitleComponent } from './components/partials/title/title.component';
 import { CartPageComponent } from './components/pages/cart-page/cart-page.component';
 import { NotFoundComponent } from './components/partials/not-found/not-found.component';
 import {
-  HTTP_INTERCEPTORS,
   HttpClientModule,
   provideHttpClient,
   withInterceptors,
@@ -29,6 +27,8 @@ import { DefaultButtonComponent } from './components/partials/default-button/def
 import { RegisterPageComponent } from './components/pages/register-page/register-page.component';
 import { LoadingComponent } from './components/partials/loading/loading.component';
 import { loadingInterceptor } from './shared/interceptors/loading.interceptor';
+import { CheckoutPageComponent } from './components/pages/checkout-page/checkout-page.component';
+import { OrderItemsListComponent } from './components/partials/order-items-list/order-items-list.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +49,8 @@ import { loadingInterceptor } from './shared/interceptors/loading.interceptor';
     DefaultButtonComponent,
     RegisterPageComponent,
     LoadingComponent,
+    CheckoutPageComponent,
+    OrderItemsListComponent,
   ],
   imports: [
     BrowserModule,

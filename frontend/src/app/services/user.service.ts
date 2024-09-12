@@ -20,6 +20,11 @@ export class UserService {
 
   constructor(private http: HttpClient, private toastr: ToastrService) {}
 
+  // obter o ultimo valor do usuário logado
+  public get currentUser(): User {
+    return this.userSubject.value;
+  }
+
   login(userLogin: IUserLogin): Observable<User> {
     return this.http.post<User>(USER_LOGIN_URL, userLogin).pipe(
       tap({

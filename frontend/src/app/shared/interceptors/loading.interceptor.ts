@@ -9,12 +9,14 @@ import { Observable, tap } from 'rxjs';
 import { LoadingService } from 'src/app/services/loading.service';
 
 var pendingRequests = 0;
+// const loadingService = inject(LoadingService);
 
 export function loadingInterceptor(
   req: HttpRequest<any>,
   next: HttpHandlerFn
 ): Observable<HttpEvent<any>> {
   const loadingService = inject(LoadingService);
+
   loadingService.showLoading();
   pendingRequests = pendingRequests + 1;
 
