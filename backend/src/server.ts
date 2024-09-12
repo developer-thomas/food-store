@@ -1,42 +1,27 @@
 import express from "express";
-import cors from "cors";
-import { sample_foods, sample_tags } from "./data";
+import cors, { CorsOptions } from "cors";
+import foodRouter from "./routers/food.router";
+import userRouter from "./routers/user.router";
+import dotenv from "dotenv";
+dotenv.config();
+import { dbConnect } from "./configs/database.config";
 
 const app = express();
+
+dbConnect();
+// Habilitar o uso de JSON no express, por padrão não aceita json
+app.use(express.json());
 // configuração do middleware cors para conseguirmos usar o front na porta 4200 sem erro de cors
-app.use(
-  cors({
-    credentials: true,
-    origin: ["http://localhost:4200"],
-  })
-);
 
-app.get("/api/foods", (req, res) => {
-  res.send(sample_foods);
-});
+const corsOptions: CorsOptions = {
+  origin: "http://localhost:4200",
+  methods: "GET, POST, PATCH, PUT, DELETE",
+};
 
-app.get("/api/foods/search/:searchTerm", (req, res) => {
-  const searchTerm = req.params.searchTerm;
-  const foods = sample_foods.filter((food) => food.name.toLowerCase().includes(searchTerm.toLowerCase()));
-  res.send(foods);
-  // res.send(searchTerm);
-});
+app.use(cors(corsOptions));
 
-app.get("/api/foods/tags", (req, res) => {
-  res.send(sample_tags);
-});
-
-app.get("/api/foods/tag/:tags", (req, res) => {
-  const tagName = req.params.tags;
-  const foodByTag = sample_foods.filter((food) => food.tags.toLowerCase().includes(tagName.toLocaleLowerCase()));
-  res.send(foodByTag);
-});
-
-app.get("/api/foods/food/:foodId", (req, res) => {
-  const id = req.params.foodId;
-  const findById = sample_foods.find((food) => food.id == id);
-  res.send(findById);
-});
+app.use("/api/foods", foodRouter);
+app.use("/api/users", userRouter);
 
 const port = 5000;
 

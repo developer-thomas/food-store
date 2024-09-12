@@ -11,7 +11,7 @@ export const sample_foods: any[] = [
     origins: ["italy"],
     stars: 4.5,
     imageUrl: "assets/food-1.jpg",
-    tags: "FastFood",
+    tags: ["FastFood"],
   },
   {
     id: "2",
@@ -22,7 +22,7 @@ export const sample_foods: any[] = [
     origins: ["Italy"],
     stars: 4.5,
     imageUrl: "assets/food-2.jpg",
-    tags: "FastFood",
+    tags: ["FastFood"],
   },
   {
     id: "3",
@@ -33,7 +33,7 @@ export const sample_foods: any[] = [
     origins: ["United States"],
     stars: 4.2,
     imageUrl: "assets/food-3.jpg",
-    tags: "FastFood",
+    tags: ["FastFood"],
   },
   {
     id: "4",
@@ -44,7 +44,7 @@ export const sample_foods: any[] = [
     origins: ["Canada"],
     stars: 4.1,
     imageUrl: "assets/food-4.jpg",
-    tags: "Pizza",
+    tags: ["Pizza"],
   },
   {
     id: "5",
@@ -55,7 +55,7 @@ export const sample_foods: any[] = [
     origins: ["United States"],
     stars: 4.7,
     imageUrl: "assets/food-5.jpg",
-    tags: "Pizza",
+    tags: ["Pizza"],
   },
   {
     id: "6",
@@ -66,7 +66,7 @@ export const sample_foods: any[] = [
     origins: ["Italy"],
     stars: 4.0,
     imageUrl: "assets/food-6.jpg",
-    tags: "Lunch",
+    tags: ["Lunch"],
   },
   {
     id: "7",
@@ -77,7 +77,7 @@ export const sample_foods: any[] = [
     origins: ["United States"],
     stars: 4.9,
     imageUrl: "assets/food-7.jpg",
-    tags: "Lunch",
+    tags: ["Lunch"],
   },
   {
     id: "8",
@@ -88,7 +88,7 @@ export const sample_foods: any[] = [
     origins: ["Greece"],
     stars: 4.3,
     imageUrl: "assets/food-8.jpg",
-    tags: "SlowFood",
+    tags: ["SlowFood"],
   },
   {
     id: "9",
@@ -99,7 +99,7 @@ export const sample_foods: any[] = [
     origins: ["Italy"],
     stars: 4.6,
     imageUrl: "assets/food-9.jpg",
-    tags: "SlowFood",
+    tags: ["SlowFood"],
   },
   {
     id: "10",
@@ -110,7 +110,7 @@ export const sample_foods: any[] = [
     origins: ["United States"],
     stars: 4.2,
     imageUrl: "assets/food-10.jpg",
-    tags: "Hamburger",
+    tags: ["Hamburger"],
   },
 ];
 
@@ -123,4 +123,21 @@ export const sample_tags: any[] = [
   { name: "Hamburger", count: 1 },
   { name: "Fry", count: 1 },
   { name: "Soup", count: 1 },
+];
+
+export const sample_users: any[] = [
+  {
+    name: "John Doe",
+    email: "john@gmail.com",
+    password: "12345",
+    address: "Toronto On",
+    isAdmin: true,
+  },
+  {
+    name: "Jane Doe",
+    email: "jane@gmail.com",
+    password: "12345",
+    address: "Shangai",
+    isAdmin: false,
+  },
 ];
