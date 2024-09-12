@@ -17,6 +17,12 @@
       ></text-input>
 
       <app-default-button type="submit" text="Entrar"></app-default-button>
+      <div class="register">
+        <p>Não possui uma conta?</p>
+        <a routerLink="/register" [queryParams]="{ returnUrl: returnUrl }"
+          >Cadastre-se</a
+        >
+      </div>
     </form>
   </div>
 </div>
