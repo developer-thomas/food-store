@@ -54,11 +54,12 @@ router.post(
 
 const generateTokenResponse = async (user: any) => {
   const payload = {
+    id: user.id,
     email: user.email,
     isAdmin: user.isAdmin,
   };
 
-  const token = jwt.sign(payload, "secretjwt", { expiresIn: "1h" });
+  const token = jwt.sign(payload, process.env.SECRET_JWT!, { expiresIn: "1h" });
 
   user.token = token;
   return user;
