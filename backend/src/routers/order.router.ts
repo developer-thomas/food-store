@@ -13,7 +13,7 @@ router.post(
   asyncHandler(async (req: any, res: any) => {
     const requestOrder = req.body;
 
-    if (requestOrder.item.length <= 0) {
+    if (requestOrder.items <= 0) {
       res.status(HTTP_BAD_REQUEST).send("Cart is Empty!");
       return;
     }
