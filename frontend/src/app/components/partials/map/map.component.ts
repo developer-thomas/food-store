@@ -1,4 +1,10 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Input,
+  OnChanges,
+  ViewChild,
+} from '@angular/core';
 import {
   icon,
   LatLng,
@@ -20,7 +26,7 @@ import { Order } from 'src/app/shared/models/Order';
   templateUrl: './map.component.html',
   styleUrl: './map.component.scss',
 })
-export class MapComponent implements OnInit {
+export class MapComponent implements OnChanges {
   private readonly MARKER_ZOOM_LEVEL = 16;
   private readonly DEFAULT_LATLNG: LatLngTuple = [13.74, 21.62];
   private readonly MARKER_ICON = icon({
@@ -31,6 +37,8 @@ export class MapComponent implements OnInit {
   });
 
   @Input() order!: Order;
+  @Input() mapIsReadonly: boolean = false;
+
   @ViewChild('map', { static: true }) mapRef!: ElementRef;
 
   map!: Map;
@@ -38,8 +46,29 @@ export class MapComponent implements OnInit {
 
   constructor(private locationService: LocationService) {}
 
-  ngOnInit() {
+  ngOnChanges() {
+    if (!this.order) return;
     this.initializeMap();
+
+    if (this.mapIsReadonly && this.addressLatLng) {
+      this.showLocationOnReadonlyMode();
+    }
+  }
+
+  showLocationOnReadonlyMode() {
+    const mapHandler = this.map;
+    this.setMarker(this.addressLatLng);
+    mapHandler.setView(this.addressLatLng, this.MARKER_ZOOM_LEVEL);
+
+    mapHandler.dragging.disable;
+    mapHandler.touchZoom.disable();
+    mapHandler.doubleClickZoom.disable();
+    mapHandler.scrollWheelZoom.disable();
+    mapHandler.boxZoom.disable();
+    mapHandler.keyboard.disable();
+    mapHandler.off('click');
+    mapHandler.tap?.disable();
+    this.currentMarker.dragging?.disable();
   }
 
   initializeMap() {
@@ -68,7 +97,6 @@ export class MapComponent implements OnInit {
   setMarker(latLng: LatLngExpression) {
     // por se tratar de um setter posso definir seu valor por atribuição
     this.addressLatLng = latLng as LatLng;
-
     if (this.currentMarker) {
       this.currentMarker.setLatLng(latLng);
       return;
@@ -87,8 +115,15 @@ export class MapComponent implements OnInit {
   // mongodb não aceita mais que 8 caracteres de floating points
   // então estou deixando eles com o máximo de 8 para mandar para o backend
   set addressLatLng(latLng: LatLng) {
+    if (!latLng.lat.toFixed) return;
+
     latLng.lat = parseFloat(latLng.lat.toFixed(8));
     latLng.lng = parseFloat(latLng.lng.toFixed(8));
+
     this.order.addressLatLng = latLng;
+  }
+
+  get addressLatLng() {
+    return this.order.addressLatLng!;
   }
 }

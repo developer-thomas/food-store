@@ -9,4 +9,5 @@ import { Order } from 'src/app/shared/models/Order';
 })
 export class OrderItemsListComponent {
   @Input() order!: Order;
+  constructor() {}
 }

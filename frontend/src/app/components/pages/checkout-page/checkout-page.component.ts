@@ -30,6 +30,7 @@ export class CheckoutPageComponent implements OnInit {
     this.order.totalPrice = cart.totalPrice;
   }
   ngOnInit() {
+    console.log(this.order);
     let { name, address } = this.userService.currentUser;
     this.checkoutForm = this.formBuilder.group({
       name: [name, Validators.required],
@@ -60,7 +61,7 @@ export class CheckoutPageComponent implements OnInit {
 
     this.orderService.create(this.order).subscribe({
       next: () => {
-        // this.router.navigateByUrl('/payment');
+        this.router.navigateByUrl('/payment');
         console.log(this.order);
       },
       error: (errorResponse) => {
